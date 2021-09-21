@@ -1,8 +1,26 @@
-const app = require('./app');
+const express = require('express');
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  /* eslint-disable no-console */
-  console.log(`Listening: http://localhost:${port}`);
-  /* eslint-enable no-console */
+const project = require('../constants/project');
+const states = require('./states/states.routes');
+const users = require('./users/users.routes');
+const addresses = require('./addresses/addresses.routes');
+const companies = require('./companies/companies.routes');
+const items = require('./items/items.routes');
+const auth = require('./auth/auth.routes');
+
+const router = express.Router();
+
+router.get('/', (req, res) => {
+  res.json({
+    message: project.message,
+  });
 });
+
+router.use('/states', states);
+router.use('/users', users);
+router.use('/auth', auth);
+router.use('/addresses', addresses);
+router.use('/companies', companies);
+router.use('/items', items);
+
+module.exports = router;
